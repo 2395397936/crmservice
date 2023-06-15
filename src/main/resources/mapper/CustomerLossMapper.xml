@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqut.crmservice.mapper.CustomerLossMapper">
+    <insert id="getLoss">
+        insert into custmer_loss(cl_order_time, cus_id, cl_status)
+        values (select max (o.odr_time) ot, o.cus_id, 1 from orders o, customer c
+	where o.cus_id=c.cus_id and c.cus_status=1 and
+	not EXISTS(select * from customer_loss cl where cl.cl_status in(1,2) and o.cus_id=cl.cus_id)
+GROUP BY o.cus_id HAVING DATEDIFF(now(), ot)>180)
+    </insert>
+</mapper>

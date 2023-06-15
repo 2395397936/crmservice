@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqut.crmservice.mapper.CustomerMapper">
+    <select id="getCustomerAttribute" resultType="cn.edu.cqut.crmservice.entity.Report">
+        SELECT sum(t.odr_amount) "value", DATE_FORMAT(t.odr_time, '%Y') "item"
+        FROM orders t
+        GROUP BY odr_time;
+    </select>
+
+    <select id="getCustomerAttributeByCusId" resultType="cn.edu.cqut.crmservice.entity.Report">
+        SELECT sum(t.odr_amount) "value", DATE_FORMAT(t.odr_time, '%Y') "item"
+        FROM orders t
+        where cus_id = #{cusId}
+        GROUP BY odr_time ;
+    </select>
+</mapper>
